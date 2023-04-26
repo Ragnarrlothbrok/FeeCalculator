@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Select, Row, Col, Card, Divider } from "antd";
-const { Option } = Select;
+import { Select } from "antd";
+import "./index.css";
 
+const { Option } = Select;
 
 const FeeCalculator = (props) => {
   const [selectedFee, setSelectedFee] = useState("");
@@ -15,8 +16,7 @@ const FeeCalculator = (props) => {
   const { feeStructure, coursesList } = props;
 
   const handleFeeChange = (e) => {
-    setSelectedFee(e.target.value);
-    console.log("What Na",feeStructure[e.target.value],  feeStructure);
+    setSelectedFee(e);
     setSelectedNationality("");
     setSelectedCourse("");
     setSelectedLevel("");
@@ -31,56 +31,52 @@ const FeeCalculator = (props) => {
   };
 
   const handleCourseChange = (e) => {
-    // if(coursesList["ALL_COURSES"].includes(e)){
-        setSelectedCourse("ALL_COURSES");
-        setSelectedCourseView(e);
-        const levelListUpdate = Object.keys(feeStructure[selectedFee][selectedNationality]["ALL_COURSES"]);
-        if( levelListUpdate == ["ALL_LEVEL"]) {
-            levelListUpdate = ["UG", "PG", "DIPLOMA"];
-        }
-        setLevelList(levelListUpdate);
-    // }
-    // else {
-    //     setSelectedCourse(e);
-    //     setSelectedCourseView(e);
-    // }
+    setSelectedCourse("ALL_COURSES");
+    setSelectedCourseView(e);
+    let levelListUpdate = Object.keys(
+      feeStructure[selectedFee][selectedNationality]["ALL_COURSES"]
+    );
+    if (levelListUpdate[0] === "ALL_LEVEL") {
+      levelListUpdate = ["UG", "PG", "DIPLOMA", "Ph.D"];
+    }
+    setLevelList(levelListUpdate);
     setSelectedLevel("");
     setFeeAmount(0);
   };
 
   const handleLevelChange = (e) => {
-    if (selectedFee == "Exam Fee") {
-        setFeeAmount(
-            feeStructure[selectedFee][selectedNationality][selectedCourse]["ALL_LEVEL"].amount
-        );
+    if (selectedFee === "Exam Fee") {
+      setFeeAmount(
+        feeStructure[selectedFee][selectedNationality][selectedCourse][
+          "ALL_LEVEL"
+        ].amount
+      );
     } else {
-        setFeeAmount(
-            feeStructure[selectedFee][selectedNationality][selectedCourse][
-              e
-            ].amount
-          );
+      setFeeAmount(
+        feeStructure[selectedFee][selectedNationality][selectedCourse][e].amount
+      );
     }
     setSelectedLevel(e);
   };
 
   return (
-    <div>
-      <h2>Fee Calculator</h2>
-      <div>
-        <label htmlFor="fee">Fee:</label>
-        <select
+    <div className="form-wrapper">
+      <div className="form">
+        <p htmlFor="fee">Fee:</p>
+        <Select
           name="fee"
           id="fee"
           onChange={handleFeeChange}
           value={selectedFee}
+          style={{ width: "100%" }}
         >
-          <option value="">Select a fee</option>
+          <Option value="">Select a fee</Option>
           {Object.keys(feeStructure).map((fee) => (
             <option key={fee} value={fee}>
               {fee}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
       {selectedFee && (
         <>
@@ -88,6 +84,7 @@ const FeeCalculator = (props) => {
           <Select
             onChange={handleNationalityChange}
             value={selectedNationality}
+            style={{ width: "100%" }}
           >
             <Option disabled value="">
               Select nationality
@@ -102,7 +99,11 @@ const FeeCalculator = (props) => {
           {selectedNationality && (
             <>
               <p>Select course:</p>
-              <Select onChange={handleCourseChange} value={selectedCourseView}>
+              <Select
+                onChange={handleCourseChange}
+                value={selectedCourseView}
+                style={{ width: "100%" }}
+              >
                 <Option disabled value="">
                   Select course
                 </Option>
@@ -116,7 +117,11 @@ const FeeCalculator = (props) => {
               {selectedCourse && (
                 <>
                   <p>Select level:</p>
-                  <Select onChange={handleLevelChange} value={selectedLevel}>
+                  <Select
+                    onChange={handleLevelChange}
+                    value={selectedLevel}
+                    style={{ width: "100%" }}
+                  >
                     <Option disabled value="">
                       Select level
                     </Option>
@@ -125,31 +130,10 @@ const FeeCalculator = (props) => {
                         {level}
                       </Option>
                     ))}
-                    {/* {Object.keys(
-                      feeStructure[selectedFee][selectedNationality][
-                        selectedCourse
-                      ]
-                    ).map((level) => {
-                      if (level === "ALL_LEVEL") return null;
-                      if (!levelsList.includes(level)) return null;
-                      return (
-                        <Option key={level} value={level}>
-                          {level}
-                        </Option>
-                      );
-                    })} */}
                   </Select>
 
                   {selectedLevel && (
-                    <p>
-                      Fee amount:{" "}
-                      {/* {
-                        feeStructure[selectedFee][selectedNationality][
-                          selectedCourse
-                        ][selectedLevel].amount
-                      } */}
-                      {feeAmount}
-                    </p>
+                    <h2 className="fee-amt">Fee amount: {feeAmount}</h2>
                   )}
                 </>
               )}

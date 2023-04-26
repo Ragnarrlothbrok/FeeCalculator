@@ -1,25 +1,22 @@
-import { Layout, Menu } from "antd";
-import { feeStructure, coursesList, levelsList } from "./jsonData/feeData";
+import { feeStructure, coursesList } from "./jsonData/feeData";
 import FeeCalculator from "./FeesCalculator";
 
 function App() {
   return (
-    <Layout>
-      <Layout.Header>
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">Fees Calculator</Menu.Item>
-        </Menu>
-      </Layout.Header>
-      <Layout.Content style={{ padding: "0 50px" }}>
-        <div className="site-layout-content">
-          <FeeCalculator feeStructure={feeStructure} coursesList={coursesList} levelsList={levelsList} />
+    <div>
+      <h1 class="header"> Fees Calculator </h1>
+      <div class="container">
+        <div className="container-form">
+          <FeeCalculator 
+            feeStructure={feeStructure}
+            coursesList={coursesList}
+          />
         </div>
-      </Layout.Content>
-      <Layout.Footer style={{ textAlign: "center" }}>
+      </div>
+      <div className="footer">
         Fees Calculator ©2023 Created by Apoorv Tiwari
-      </Layout.Footer>
-    </Layout>
+      </div>
+    </div>
   );
 }
 
