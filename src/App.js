@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { Layout, Menu } from "antd";
+import { feeStructure, coursesList, levelsList } from "./jsonData/feeData";
+import FeeCalculator from "./FeesCalculator";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Layout.Header>
+        <div className="logo" />
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+          <Menu.Item key="1">Fees Calculator</Menu.Item>
+        </Menu>
+      </Layout.Header>
+      <Layout.Content style={{ padding: "0 50px" }}>
+        <div className="site-layout-content">
+          <FeeCalculator feeStructure={feeStructure} coursesList={coursesList} levelsList={levelsList} />
+        </div>
+      </Layout.Content>
+      <Layout.Footer style={{ textAlign: "center" }}>
+        Fees Calculator ©2023 Created by Apoorv Tiwari
+      </Layout.Footer>
+    </Layout>
   );
 }
 
